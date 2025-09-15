@@ -43,7 +43,7 @@ main {
 
 #imagem {
     display: block;
-    background: #5f2c82 url("imagens/pexels.jpg") no-repeat;
+    background: #5f2c82 url("/estilos/pexels.jpg") no-repeat;
     background-position: center top;
     background-size: cover;
     height: 200px;
