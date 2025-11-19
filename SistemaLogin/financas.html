@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Finanças</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        /* Cabeçalho com botão de sair */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 60%;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+
+        .btn-sair {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-sair:hover { background-color: #c9302c; }
+
+        .btn-reset {
+            background-color: #f0ad4e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Tabela */
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: auto;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        caption {
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 15px;
+            background-color: #5f2c82; /* Cor do seu tema */
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        td, th {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+
+        thead, tfoot {
+            background-color: #2c3c82; /* Cor do seu tema */
+            color: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .h1 { text-align: center; color: #333; }
+        .num { text-align: right; }
+        
+        /* Inputs dentro da tabela */
+        input[type="date"] {
+            border: none;
+            background: transparent;
+            font-family: inherit;
+        }
+
+        /* Botão Adicionar */
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-add {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-add:hover { background-color: #4cae4c; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="btn-reset" onclick="resetarDados()">⚠️ Resetar Tabela</button>
+        <button class="btn-sair" onclick="sairDoSistema()">Sair / Logout</button>
+    </header>
+
+    <h1 class="h1">Painel Financeiro</h1>
+
+    <table>
+        <thead>
+            <caption>Minhas Finanças</caption>
+            <tr>
+                <th>Cliente / Descrição</th>
+                <th>Data</th>
+                <th>Valor Total</th>
+                <th>Juros</th>
+                <th>Parcelamento</th>
+                <th>Valor Pago</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr>
+                <td contenteditable="true">Exemplo: Compra Online</td>
+                <td class="num"><input type="date"></td>
+                <td class="num valor" contenteditable="true">0</td>
+                <td contenteditable="true">0</td>
+                <td class="num" contenteditable="true">1x</td>
+                <td class="pagas" contenteditable="true">0</td>
+                <td style="text-align: center;">
+                    <button onclick="excluirLinha(this)" style="cursor:pointer; border:none; background:none;">🗑️</button>
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <th colspan="6">Saldo Restante (A Receber)</th>
+                <td class="num" id="res3" style="font-size: 1.2em; background-color: #ddd; color: black;"><strong>R$ 0,00</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="btn-container">
+        <button class="btn-add" onclick="adicionarLinha()">+ Adicionar Nova Linha</button>
+    </div>
+
+    <script src="minhasFinancas.js"></script>
+</body>
+</html>

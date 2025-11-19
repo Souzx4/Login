@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // INICIALIZA O EMAILJS (Coloque sua Public Key aqui)
+        (function(){
+            emailjs.init("SUA_PUBLIC_KEY_AQUI"); 
+        })();
+    </script>
+</head>
+<body>
+    <main>
+        <section id="login">
+            <div id="formulario" style="width: 100%; float: none;">
+                <h1>Recuperar Senha</h1>
+                
+                <div id="etapa1">
+                    <p>Digite seu e-mail cadastrado para receber o código.</p>
+                    <div class="campo">
+                        <input type="email" id="emailRecuperacao" placeholder="Seu e-mail">
+                    </div>
+                    <button onclick="enviarCodigo()" class="botao-acao">Enviar Código</button>
+                </div>
+
+                <div id="etapa2" style="display: none;">
+                    <p>Código enviado! Verifique seu Gmail.</p>
+                    <div class="campo">
+                        <input type="number" id="codigoDigitado" placeholder="Código de 4 dígitos">
+                    </div>
+                    <div class="campo">
+                        <input type="password" id="novaSenha" placeholder="Nova Senha">
+                    </div>
+                    <button onclick="verificarEAlterar()" class="botao-acao">Alterar Senha</button>
+                </div>
+                
+                <br>
+                <a href="login.html" class="botao">Voltar para Login</a>
+            </div>
+        </section>
+    </main>
+
+    <style>
+        .botao-acao {
+            background-color: #49a09d; color: white; border: none; 
+            padding: 10px; width: 100%; cursor: pointer; margin-top: 10px; border-radius: 5px;
+        }
+        .botao-acao:hover { background-color: #57b5b2; }
+    </style>
+
+    <script>
+        let codigoGerado = 0; // Variável para guardar o código correto
+        let emailAlvo = "";   // O e-mail que estamos recuperando
+
+        function enviarCodigo() {
+            const email = document.getElementById('emailRecuperacao').value;
+            
+            // 1. Verifica se o usuário existe no LocalStorage
+            if (!localStorage.getItem(`senha_${email}`)) {
+                alert("Este e-mail não possui cadastro!");
+                return;
+            }
+
+            // 2. Gera um código aleatório de 4 dígitos (ex: 4521)
+            codigoGerado = Math.floor(1000 + Math.random() * 9000);
+            emailAlvo = email;
+
+            // AVISO PARA TESTE (Caso você não configure o EmailJS agora)
+            console.log("CÓDIGO GERADO (PARA TESTES):", codigoGerado);
+
+            // 3. Envia o e-mail usando EmailJS
+            const parametros = {
+                to_email: email,   // Variável que vai para o EmailJS (quem recebe)
+                codigo: codigoGerado // Variável {{codigo}} do template
+            };
+
+            // SUBSTITUA 'SEU_SERVICE_ID' e 'SEU_TEMPLATE_ID' pelos seus dados
+            emailjs.send("SEU_SERVICE_ID", "SEU_TEMPLATE_ID", parametros)
+            .then(function(response) {
+                alert("E-mail enviado com sucesso! Verifique sua caixa de entrada (e spam).");
+                // Troca de tela
+                document.getElementById('etapa1').style.display = 'none';
+                document.getElementById('etapa2').style.display = 'block';
+            }, function(error) {
+                alert("Erro ao enviar e-mail. Veja o console (F12) para detalhes.");
+                console.log("ERRO EMAILJS:", error);
+                
+                // MODO DE TESTE: Se o email falhar (por falta de config), 
+                // permite continuar só com o console.log
+                alert("MODO TESTE: O código é " + codigoGerado);
+                document.getElementById('etapa1').style.display = 'none';
+                document.getElementById('etapa2').style.display = 'block';
+            });
+        }
+
+        function verificarEAlterar() {
+            const inputCodigo = document.getElementById('codigoDigitado').value;
+            const novaSenha = document.getElementById('novaSenha').value;
+
+            // Verifica se o código bate
+            if (parseInt(inputCodigo) === codigoGerado) {
+                if(novaSenha.length < 4) {
+                    alert("A senha precisa ter no mínimo 4 dígitos.");
+                    return;
+                }
+
+                // SUCESSO: Atualiza a senha no LocalStorage
+                localStorage.setItem(`senha_${emailAlvo}`, novaSenha);
+                
+                alert("Senha alterada com sucesso! Faça login com a nova senha.");
+                window.location.href = 'login.html';
+            } else {
+                alert("Código incorreto! Tente novamente.");
+            }
+        }
+    </script>
+</body>
+</html>
