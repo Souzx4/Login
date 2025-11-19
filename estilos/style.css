@@ -117,3 +117,9 @@ form > input[type=submit]:hover {
 .botao:hover {
     color: #2c3c82;
 }
+
+#emailRecuperacao {
+    width: 100% !important;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
