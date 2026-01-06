@@ -9,7 +9,7 @@
     <script type="text/javascript">
         // INICIALIZA O EMAILJS (Coloque sua Public Key aqui)
         (function(){
-            emailjs.init("SUA_PUBLIC_KEY_AQUI"); 
+            emailjs.init("ddVJeJgn0wjNgcfsO"); 
         })();
     </script>
 </head>
@@ -74,12 +74,12 @@
 
             // 3. Envia o e-mail usando EmailJS
             const parametros = {
-                to_email: email,   // Variável que vai para o EmailJS (quem recebe)
-                codigo: codigoGerado // Variável {{codigo}} do template
+                to_email: email,       // Corresponde ao {{to_email}} que você colocou no "To Email"
+                codigo: codigoGerado,  // Corresponde ao {{codigo}} no corpo do e-mail
+                time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) // Preenche o {{time}}
             };
-
             // SUBSTITUA 'SEU_SERVICE_ID' e 'SEU_TEMPLATE_ID' pelos seus dados
-            emailjs.send("SEU_SERVICE_ID", "SEU_TEMPLATE_ID", parametros)
+            emailjs.send("service_uyxwnpj", "template_5k9e6ke", parametros)
             .then(function(response) {
                 alert("E-mail enviado com sucesso! Verifique sua caixa de entrada (e spam).");
                 // Troca de tela
